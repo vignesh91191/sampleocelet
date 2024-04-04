@@ -1,0 +1,61 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/Currency",
+      "UpstreamPathTemplate": "/api/Currency",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7284
+        }
+      ],
+      "DownstreamHeaders": [
+        {
+          "Key": "Content-Type",
+          "Value": "application/json"
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/api/Currency",
+      "UpstreamPathTemplate": "/api/Currency",
+      "UpstreamHttpMethod": [ "Post" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "your-backend-api-domain",
+          "Port": 443
+        }
+      ],
+      "DownstreamHeaders": [
+        {
+          "Key": "Content-Type",
+          "Value": "application/json"
+        }
+      ]
+    },
+    {
+      "DownstreamPathTemplate": "/WeatherForecast",
+      "UpstreamPathTemplate": "/WeatherForecast",
+      "UpstreamHttpMethod": [ "Get" ],
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "your-backend-api-domain",
+          "Port": 443
+        }
+      ],
+      "DownstreamHeaders": [
+        {
+          "Key": "Content-Type",
+          "Value": "application/json"
+        }
+      ]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "https://localhost:7284"
+  }
+}
