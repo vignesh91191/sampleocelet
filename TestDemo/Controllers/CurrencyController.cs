@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TestDemo.Data;
 using TestDemo.Model;
+using TestDemo.Services;
 
 namespace TestDemo.Controllers
 {
@@ -10,9 +11,12 @@ namespace TestDemo.Controllers
     {
         private readonly InventoryDbContext _context;
 
-        public CurrencyController(InventoryDbContext context)
+        private readonly BlobStorageService _blobStorageService;
+        public CurrencyController(InventoryDbContext context,
+            BlobStorageService blobStorageService)
         {
             _context = context;
+            _blobStorageService = blobStorageService;
         }
 
         [HttpGet]
@@ -27,6 +31,20 @@ namespace TestDemo.Controllers
             _context.InventoryItems.Add(item);
             _context.SaveChanges();
             return StatusCode(201);
+        }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadAsync(IFormFile file)
+        {
+            try
+            {
+                var uri = await _blobStorageService.UploadFileAsync(file);
+                return Ok($"File uploaded successfully. Blob URI: {uri}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
     }
 }
