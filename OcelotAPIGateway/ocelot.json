@@ -37,6 +37,19 @@
       ]
     },
     {
+      "DownstreamPathTemplate": "/api/Currency/upload/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 7284
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Currency/upload/{everything}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "SwaggerKey": "CurrencyUpload"
+    },
+    {
       "DownstreamPathTemplate": "/WeatherForecast",
       "UpstreamPathTemplate": "/WeatherForecast",
       "UpstreamHttpMethod": [ "Get" ],
