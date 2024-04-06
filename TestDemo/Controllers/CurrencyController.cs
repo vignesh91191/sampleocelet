@@ -46,5 +46,11 @@ namespace TestDemo.Controllers
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+
+        [HttpPost("ReadData")]
+        public async Task<string> ReadData(string path)
+        {
+            return await _blobStorageService.ReadFile(path);
+        }
     }
 }
