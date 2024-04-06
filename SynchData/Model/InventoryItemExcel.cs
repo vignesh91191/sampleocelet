@@ -1,6 +1,6 @@
 ﻿namespace SynchData.Model
 {
-    public class InventoryItem
+    public class InventoryItemExcel
     {
         public string SkuName { get; set; }
         public string Description { get; set; }

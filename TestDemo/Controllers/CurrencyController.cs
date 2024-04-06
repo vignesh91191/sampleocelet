@@ -50,7 +50,28 @@ namespace TestDemo.Controllers
         [HttpPost("ReadData")]
         public async Task<string> ReadData(string path)
         {
-            return await _blobStorageService.ReadFile(path);
+            try
+            {
+                var data = await _blobStorageService.ReadFile(path);
+                var item = new InventoryItem()
+                {
+                    SkuName = data.SkuName,
+                    Cost = data.Cost,
+                    Description = data.Description,
+                    ProfitPerItem = data.ProfitPerItem,
+                    Quantity = data.Quantity,
+                    WasDeleted = data.WasDeleted,
+                    CostCurrencyId = 1
+                };
+
+                _context.InventoryItems.Add(item);
+                _context.SaveChanges(true);
+                return "done";
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

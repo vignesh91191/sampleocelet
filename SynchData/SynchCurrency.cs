@@ -25,33 +25,46 @@ namespace SynchData
         {
             try
             {
-               
+                JObject json = JObject.Parse(mySbMsg);
+                string excelFileUrl = (string)json["data"]["url"];
+                var path = Path.GetFileName(excelFileUrl);
 
-                //// Assuming the message contains the Excel file bytes, deserialize it and read the data
-                //byte[] excelFileBytes = Convert.FromBase64String(mySbMsg);
+                string url = "https://localhost:7284/api/Currency/ReadData?path="+ path;
 
-                //// Create a stream from the byte array
-                //using (MemoryStream stream = new MemoryStream(excelFileBytes))
-                //{
-                //    // Load the Excel package
-                //    using (ExcelPackage package = new ExcelPackage(stream))
-                //    {
-                //        // Assuming the Excel file has only one worksheet
-                //        ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+                // Create an instance of HttpClient
+                using (HttpClient client = new HttpClient())
+                {
+                    try
+                    {
+                        // Create your request content if needed
+                        HttpContent content = new StringContent("");
 
-                //        // Iterate through each row to read data
-                //        for (int row = worksheet.Dimension.Start.Row; row <= worksheet.Dimension.End.Row; row++)
-                //        {
-                //            var item = new InventoryItem();
-                //            item.SkuName = worksheet.Cells[row, 1].Value?.ToString();
-                //            item.Description = worksheet.Cells[row, 2].Value?.ToString();
-                //            item.Cost = Convert.ToInt64(worksheet.Cells[row, 3].Value);
-                //            item.ProfitPerItem = Convert.ToInt64(worksheet.Cells[row, 4].Value);
-                //            item.Quantity = Convert.ToInt32(worksheet.Cells[row, 5].Value);
-                //            item.WasDeleted = Convert.ToInt32(worksheet.Cells[row, 6].Value);
-                //        }
-                //    }
-                //}
+                        // Add headers if needed
+                        content.Headers.Clear();
+                        //content.Headers.Add("accept", "text/plain");
+
+                        // Make the POST request
+                        var response = await client.PostAsync(url, content);
+
+                        // Check if the response is successful
+                        if (response.IsSuccessStatusCode)
+                        {
+                            // Read the response content
+                            string responseContent = await response.Content.ReadAsStringAsync();
+                            Console.WriteLine("Response from server:");
+                            Console.WriteLine(responseContent);
+                        }
+                        else
+                        {
+                            // If the request was not successful, handle it accordingly
+                            Console.WriteLine("Error: " + response.StatusCode);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error: " + ex.Message);
+                    }
+                }
             }
             catch (Exception ex)
             {
